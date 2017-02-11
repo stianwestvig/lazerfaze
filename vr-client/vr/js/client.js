@@ -158,11 +158,11 @@ function init() {
     var skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
     scene.add( skyBox );
 
-    for (var i = 0; i < enemies.length; i++) {
+    for (var i = 0; i < employees.length; i++) {
       const increment = i * 3;
-      scene.add(enemies[i]);
-      enemies[i].position.x = 8 + increment;
-      enemies[i].position.y = 3 + increment;
+      scene.add(employees[i]);
+      employees[i].position.x = 8 + increment;
+      employees[i].position.y = 3 + increment;
     }
 
     window.addEventListener('resize', resize, false);
@@ -198,11 +198,11 @@ function render(dt) {
     // bouncer.position.y = 10*Math.abs(Math.sin(i));
     // bouncer.rotation.y = 10*Math.abs(Math.sin(i));
 
-    // update enemies for render:
-    for (var j = 0; j < enemies.length; j++) {
-      enemies[j].rotation.y = Math.abs(Math.sin(i));
-      enemies[j].position.x = 15 + 5*Math.sin(i * 2 + j);
-      enemies[j].position.z = 20+ 10*Math.sin(i + j);
+    // update employees for render:
+    for (var j = 0; j < employees.length; j++) {
+      employees[j].rotation.y = Math.abs(Math.sin(i));
+      employees[j].position.x = 15 + 5*Math.sin(i * 2 + j);
+      employees[j].position.z = 20+ 10*Math.sin(i + j);
     }
 
 
