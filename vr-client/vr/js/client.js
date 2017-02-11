@@ -74,7 +74,10 @@ function init() {
 
     raycaster = new THREE.Raycaster();
     console.log('raycaster', raycaster);
-    crosshairs = new THREE.Vector2(container.offsetWidth, container.offsetHeight);
+    // TODO: the width/height might be off
+    const width = container.innerWidth / 4;
+    const height = container.innerHeight / 4;
+    crosshairs = new THREE.Vector2(width, height);
 
     var light = new THREE.HemisphereLight(0xFFFFFF, 0xFFFFFF, 0.6);
     scene.add(light);
@@ -206,6 +209,12 @@ function render(dt) {
     // update the picking ray with the camera and crosshairs position
     raycaster.setFromCamera( crosshairs, camera );
 
+    var intersects = raycaster.intersectObjects( scene.children );
+    for (let obj of intersects) {
+        obj.object.material.color.setHex( 0xff0000 );
+    }
+
+
     gui1.innerHTML = 'Poeng: ' + score;
     gui2.innerHTML = 'Poeng: ' + score;
 
@@ -230,3 +239,8 @@ function fullscreen() {
         container.webkitRequestFullscreen();
     }
 }
+
+// document.addEventListener('mousemose', (e) => {
+//     raycaster.x = (e.clientX / window.innerWidth) * 2 - 1;
+//     raycaster.y = (e.clientY / window.innerHeight) * 2 + 1;
+// });
