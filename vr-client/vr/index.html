@@ -9,8 +9,29 @@
   </head>
   <body>
     <div id="app"></div>
-    <div id="gui1" class="gui">Poeng:</div>
-    <div id="gui2" class="gui">Poeng:</div>
+
+    <div id="score_left" class="score hide">
+      <span id="points_left">0 Poeng</span>
+      <span id="duration_left">0 Sekunder</span>
+    </div>
+    <div id="score_right" class="score hide">
+      <span id="points_right">0 Poeng</span>
+      <span id="duration_right">0 Sekunder</span>
+    </div>
+
+    <div id="heart_left" class="heart hide">&#9829</div>
+    <div id="heart_right" class="heart hide">&#9829</div>
+
+    <div id="menu_left" class="menu">
+      <h1 id="menu_message_left">Start</h1>
+      <p>Se ned for å starte</p>
+      <i></i>
+    </div>
+    <div id="menu_right" class="menu">
+      <h1 id="menu_message_right">Start</h1>
+      <p>Se ned for å starte</p>
+      <i></i>
+    </div>
     <!-- <script src="/socket.io/socket.io.js"></script> -->
     <script src="js/third-party/threejs/three.js"></script>
     <script src="js/third-party/threejs/OBJLoader.js"></script>

@@ -5,6 +5,11 @@ var players = [];
 var raycaster, crosshairs;
 var score;
 var employeeGroup = [];
+var isPlaying;
+var maxDuration, remainingTime;
+var isTimerStarted;
+var timer;
+var points_left, points_right, score_left, score_right;
 
 var clock = new THREE.Clock();
 // var socket = io('http://localhost:3000');
@@ -29,6 +34,13 @@ var clock = new THREE.Clock();
 init();
 animate();
 
+function startTimer() {
+  isTimerStarted = true;
+  return setInterval(() => {
+    remainingTime -= 1;
+  }, 1000);
+}
+
 function init() {
     renderer = new THREE.WebGLRenderer();
     element = renderer.domElement;
@@ -36,9 +48,16 @@ function init() {
     container.appendChild(element);
 
     score = 0;
+    isPlaying = false;
+    maxDuration = 10;
+    remainingTime = maxDuration;
+    isTimerStarted = false;
 
-    gui1 = document.getElementById('gui1');
-    gui2 = document.getElementById('gui2');
+    score_left = document.getElementById('score_left');
+    score_right = document.getElementById('score_right');
+
+    points_left = document.getElementById('points_left');
+    points_right = document.getElementById('points_right');
 
     effect = new THREE.StereoEffect(renderer);
 
@@ -102,7 +121,6 @@ function init() {
     var mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.x = -Math.PI / 2;
     scene.add(mesh);
-
 
     // Jeløya radio!
     objMat = new THREE.Texture();
@@ -170,7 +188,38 @@ function update(dt) {
 
 var i = 0;
 function render(dt) {
-    // socket.emit('player-pos-update', {playerId: 1, position: camera.rotation});
+
+    // handle menu head gestures
+    if (!isPlaying) {
+        // todo: if heart collide with a box:
+        setTimeout(() => {
+          isPlaying = true;
+        }, 1000);
+    } else if (!isTimerStarted){
+      // starting game, remove menu, show gui
+      document.getElementById('menu_left').className = 'menu hide';
+      document.getElementById('menu_right').className = 'menu hide';
+
+      document.getElementById('score_left').className = 'score';
+      document.getElementById('score_right').className = 'score';
+
+      document.getElementById('heart_left').className = 'heart';
+      document.getElementById('heart_right').className = 'heart';
+
+      timer = startTimer();
+    }
+
+    // stop the game, show game over screen:
+    if (remainingTime < 1) {
+      isPlaying = false;
+      window.clearInterval(timer);
+
+      document.getElementById('menu_message_left').innerHTML = score + ' Poeng';
+      document.getElementById('menu_message_right').innerHTML = score + ' Poeng';
+
+      document.getElementById('menu_left').className = 'menu';
+      document.getElementById('menu_right').className = 'menu';
+    }
 
     i+= 0.05;
 
@@ -183,8 +232,9 @@ function render(dt) {
       employees[j].rotation.y = Math.abs(Math.sin(i));
       employees[j].position.x = 15 + 5*Math.sin(i * 2 + j);
       employees[j].position.z = 20+ 10*Math.sin(i + j);
-    }
 
+      // for å gå i ring: sin(x) cos(z)
+    }
 
     // update the picking ray with the camera and crosshairs position
     raycaster.setFromCamera( crosshairs, camera );
@@ -195,9 +245,11 @@ function render(dt) {
         ++score;
     }
 
+    points_left.innerHTML =  score + ' Poeng';
+    points_right.innerHTML = score + ' Poeng';
 
-    gui1.innerHTML = 'Poeng: ' + score;
-    gui2.innerHTML = 'Poeng: ' + score;
+    duration_left.innerHTML = remainingTime + ' Sekunder';
+    duration_right.innerHTML = remainingTime + ' Sekunder';
 
     effect.render(scene, camera);
 }
