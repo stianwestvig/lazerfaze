@@ -1,8 +1,9 @@
 var camera, scene, renderer;
 var effect, controls;
-var element, container, bouncer;
+var element, container, gui, bouncer;
 var players = [];
 var raycaster, crosshairs;
+var score;
 
 var clock = new THREE.Clock();
 // var socket = io('http://localhost:3000');
@@ -30,8 +31,13 @@ animate();
 function init() {
     renderer = new THREE.WebGLRenderer();
     element = renderer.domElement;
-    container = document.getElementById('example');
+    container = document.getElementById('app');
     container.appendChild(element);
+
+    score = 0;
+
+    gui1 = document.getElementById('gui1');
+    gui2 = document.getElementById('gui2');
 
     effect = new THREE.StereoEffect(renderer);
 
@@ -98,9 +104,9 @@ function init() {
     bouncer.position.x = 10;
     scene.add(bouncer);
 
-    raycaster = new THREE.Raycaster();
-    console.log('raycaster', raycaster);
-    crosshairs = new THREE.Vector2(container.offsetWidth, container.offsetHeight);
+    // raycaster = new THREE.Raycaster();
+    // console.log('raycaster', raycaster);
+    // crosshairs = new THREE.Vector2(container.offsetWidth, container.offsetHeight);
 
 
     window.addEventListener('resize', resize, false);
@@ -139,11 +145,9 @@ function render(dt) {
     // update the picking ray with the camera and crosshairs position
     // raycaster.setFromCamera( crosshairs, camera );
 
-    // calculate objects intersecting the picking ray
-    var intersects = raycaster.intersectObjects( scene.children );
-    for ( var i = 0; i < intersects.length; i++ ) {
-        intersects[ i ].object.material.color.set( 0xff0000 );
-    }
+
+    gui1.innerHTML = 'Poeng: ' + score;
+    gui2.innerHTML = 'Poeng: ' + score;
 
     effect.render(scene, camera);
 }
