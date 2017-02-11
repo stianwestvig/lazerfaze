@@ -56,7 +56,7 @@ function init() {
 
     score = 0;
     isPlaying = false;
-    maxDuration = 10;
+    maxDuration = 20;
     remainingTime = maxDuration;
     isTimerStarted = false;
 
@@ -204,7 +204,7 @@ function render(dt) {
         // todo: if heart collide with a box:
         setTimeout(() => {
           isPlaying = true;
-        }, 1000);
+        }, 4000);
     } else if (!isTimerStarted){
       // starting game, remove menu, show gui
       document.getElementById('menu_left').className = 'menu hide';
