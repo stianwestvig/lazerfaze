@@ -127,6 +127,7 @@ function init() {
     var geometry = new THREE.PlaneGeometry(400, 400);
     var mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.x = -Math.PI / 2;
+    mesh.position.y = -10;
     scene.add(mesh);
 
     // Jeløya radio!
@@ -139,7 +140,7 @@ function init() {
 
 
     var objLoader = new THREE.OBJLoader();
-    objLoader.load('fasadesmall.obj', function(obj) {
+    objLoader.load('fasadefix3.obj', function(obj) {
         //obj.position.y = 10;
         obj.traverse(function(child) {
             if (child instanceof THREE.Mesh) {
@@ -233,7 +234,7 @@ function render(dt) {
       document.getElementById('menu_right').className = 'menu';
     }
 
-    i+= 0.05;
+    i+= 0.02;
 
     // BOUNCE! frikafrikafrikafrika!
     // bouncer.position.y = 10*Math.abs(Math.sin(i));

@@ -63,5 +63,5 @@ var employeeMaterials = [
     new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/employees/vivi-ann-ringnes.png'), color: 0xffffff } )
 ];
 
-var boxThing = new THREE.BoxGeometry(3, 3, 3);
+var boxThing = new THREE.BoxGeometry(5, 5, 5);
 var employees = employeeMaterials.map((employee => new THREE.Mesh( boxThing, employee )));
