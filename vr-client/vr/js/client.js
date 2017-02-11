@@ -73,7 +73,7 @@ function init() {
     window.addEventListener('deviceorientation', setOrientationControls, true);
 
 
-    var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
+    var light = new THREE.HemisphereLight(0xFFFFFF, 0xFFFFFF, 0.6);
     scene.add(light);
 
     var texture = THREE.ImageUtils.loadTexture(
@@ -109,7 +109,7 @@ function init() {
     });
 
     var objLoader = new THREE.OBJLoader();
-    objLoader.load('fasadefix3.obj', function(obj) {
+    objLoader.load('fasadesmall.obj', function(obj) {
         //obj.position.y = 10;
         obj.traverse(function(child) {
             if (child instanceof THREE.Mesh) {
