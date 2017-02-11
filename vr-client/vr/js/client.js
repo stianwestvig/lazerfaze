@@ -62,6 +62,7 @@ function init() {
     effect = new THREE.StereoEffect(renderer);
 
     scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2( 0xefd1b5, 0.004 );
 
     camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
     camera.position.set(0, 10, 0);
