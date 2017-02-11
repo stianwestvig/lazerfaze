@@ -252,6 +252,7 @@ function render(dt) {
       var intersects = raycaster.intersectObjects( employeeGroup );
       for (let obj of intersects) {
           obj.object.material.color.setHex( 0xff0000 );
+          scene.remove(obj.object);
           ++score;
       }
     }
