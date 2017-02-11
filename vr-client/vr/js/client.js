@@ -236,13 +236,14 @@ function render(dt) {
       // for å gå i ring: sin(x) cos(z)
     }
 
-    // update the picking ray with the camera and crosshairs position
-    raycaster.setFromCamera( crosshairs, camera );
-
-    var intersects = raycaster.intersectObjects( employeeGroup );
-    for (let obj of intersects) {
-        obj.object.material.color.setHex( 0xff0000 );
-        ++score;
+    if (isPlaying) {
+      // update the picking ray with the camera and crosshairs position
+      raycaster.setFromCamera( crosshairs, camera );
+      var intersects = raycaster.intersectObjects( employeeGroup );
+      for (let obj of intersects) {
+          obj.object.material.color.setHex( 0xff0000 );
+          ++score;
+      }
     }
 
     points_left.innerHTML =  score + ' Poeng';
