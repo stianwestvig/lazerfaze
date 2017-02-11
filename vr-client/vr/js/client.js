@@ -11,6 +11,13 @@ var isTimerStarted;
 var timer;
 var points_left, points_right, score_left, score_right;
 
+const player = {
+    velocity: {
+        x: 0,
+        z: 0,
+    }
+};
+
 var clock = new THREE.Clock();
 // var socket = io('http://localhost:3000');
 
@@ -182,9 +189,11 @@ function resize() {
 function update(dt) {
     resize();
 
-    camera.updateProjectionMatrix();
+    camera.position.x += player.velocity.x;
+    camera.position.z += player.velocity.z;
 
     controls.update(dt);
+    camera.updateProjectionMatrix();
 }
 
 var i = 0;
@@ -279,3 +288,31 @@ function fullscreen() {
 //     raycaster.x = (e.clientX / window.innerWidth) * 2 - 1;
 //     raycaster.y = (e.clientY / window.innerHeight) * 2 + 1;
 // });
+document.addEventListener('keydown', (e) => {
+    switch(e.key) {
+    case 'w':
+        player.velocity.x = 1;
+        break;
+    case 's':
+        player.velocity.x = -1;
+        break;
+    case 'a':
+        player.velocity.z = -1;
+        break;
+    case 'd':
+        player.velocity.z = 1;
+        break;
+    }
+});
+document.addEventListener('keyup', (e) => {
+    switch(e.key) {
+    case 'w':
+    case 's':
+        player.velocity.x = 0;
+        break;
+    case 'a':
+    case 'd':
+        player.velocity.z = 0;
+        break;
+    }
+});
