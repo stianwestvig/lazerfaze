@@ -3,12 +3,12 @@ var effect, controls;
 var element, container, gui;
 var players = [];
 var raycaster, crosshairs;
-var score;
+var score, timer;
 var employeeGroup = [];
 var isPlaying;
 var maxDuration, remainingTime;
 var isTimerStarted;
-var timer;
+var startMesh;
 var points_left, points_right, score_left, score_right;
 
 const player = {
@@ -48,17 +48,19 @@ function startTimer() {
   }, 1000);
 }
 
+function resetGame(scene, isReset) {
+  score = 0;
+  isPlaying = !isReset;
+  maxDuration = 20;
+  remainingTime = maxDuration;
+  isTimerStarted = false;
+}
+
 function init() {
     renderer = new THREE.WebGLRenderer();
     element = renderer.domElement;
     container = document.getElementById('app');
     container.appendChild(element);
-
-    score = 0;
-    isPlaying = false;
-    maxDuration = 20;
-    remainingTime = maxDuration;
-    isTimerStarted = false;
 
     score_left = document.getElementById('score_left');
     score_right = document.getElementById('score_right');
@@ -74,6 +76,16 @@ function init() {
     camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
     camera.position.set(0, 10, 0);
     scene.add(camera);
+
+    resetGame(scene, true);
+
+    for (var i = 0; i < employees.length; i++) {
+      const increment = i * 3;
+      scene.add(employees[i]);
+      employeeGroup.push(employees[i]);
+      employees[i].position.x = 8 + increment;
+      employees[i].position.y = 3 + increment;
+    }
 
     controls = new THREE.OrbitControls(camera, element);
     // controls.rotateUp(Math.PI / 4);
@@ -138,6 +150,12 @@ function init() {
         objMat.needsUpdate = true;
     });
 
+    var startThing = new THREE.BoxGeometry(3, 3, 3);
+    var startMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+    startMesh = new THREE.Mesh( startThing, startMaterial);
+    startMesh.position.x = 10;
+    startMesh.position.y = 2;
+    scene.add(startMesh);
 
     var objLoader = new THREE.OBJLoader();
     objLoader.load('fasadefix3.obj', function(obj) {
@@ -202,12 +220,15 @@ function update(dt) {
 var i = 0;
 function render(dt) {
 
-    // handle menu head gestures
+    // update the picking ray with the camera and crosshairs position
+    raycaster.setFromCamera( crosshairs, camera );
+
     if (!isPlaying) {
-        // todo: if heart collide with a box:
-        setTimeout(() => {
-          isPlaying = true;
-        }, 4000);
+        // if heart collide with a box:
+        raycaster.intersectObject(startMesh).map((intersection => {
+          scene.remove(intersection.object);
+          resetGame(scene, false);
+        }));
     } else if (!isTimerStarted){
       // starting game, remove menu, show gui
       document.getElementById('menu_left').className = 'menu hide';
@@ -226,6 +247,8 @@ function render(dt) {
     if (remainingTime < 1) {
       isPlaying = false;
       window.clearInterval(timer);
+
+      scene.add(startMesh);
 
       document.getElementById('menu_message_left').innerHTML = score + ' Poeng';
       document.getElementById('menu_message_right').innerHTML = score + ' Poeng';
@@ -250,12 +273,10 @@ function render(dt) {
     }
 
     if (isPlaying) {
-      // update the picking ray with the camera and crosshairs position
-      raycaster.setFromCamera( crosshairs, camera );
+      // detect collisions:
       var intersects = raycaster.intersectObjects( employeeGroup );
       for (let obj of intersects) {
           if (obj.object.parent && obj.object.parent.name === "Employees") {
-              obj.object.material.color.setHex( 0xff0000 );
               scene.getObjectByName("Employees").remove(obj.object);
               ++score;
           }
