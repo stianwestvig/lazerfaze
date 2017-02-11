@@ -101,7 +101,6 @@ function init() {
     window.addEventListener('deviceorientation', setOrientationControls, true);
 
     raycaster = new THREE.Raycaster();
-    console.log('raycaster', raycaster);
     // TODO: the width/height might be off
     const width = container.innerWidth / 4;
     const height = container.innerHeight / 4;
