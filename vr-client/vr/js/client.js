@@ -82,7 +82,9 @@ function init() {
     var light = new THREE.HemisphereLight(0xFFFFFF, 0xFFFFFF, 0.6);
     scene.add(light);
 
-    var texture = THREE.ImageUtils.loadTexture(
+    var textureLoader = new THREE.TextureLoader();
+
+    var texture = textureLoader.load(
         'textures/patterns/checker.png'
     );
     texture.wrapS = THREE.RepeatWrapping;
@@ -146,12 +148,12 @@ function init() {
 
     // v0.68 skybox
     var materials = [
-        new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('textures/cube/skybox/px.jpg'), side: THREE.BackSide } ), // right
-        new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('textures/cube/skybox/nx.jpg'), side: THREE.BackSide } ), // left
-        new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('textures/cube/skybox/py.jpg'), side: THREE.BackSide } ), // top
-        new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('textures/cube/skybox/ny.jpg'), side: THREE.BackSide } ), // bottom
-        new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('textures/cube/skybox/pz.jpg'), side: THREE.BackSide } ), // back
-        new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('textures/cube/skybox/nz.jpg'), side: THREE.BackSide } )  // front
+        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/cube/skybox/px.jpg'), side: THREE.BackSide } ), // right
+        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/cube/skybox/nx.jpg'), side: THREE.BackSide } ), // left
+        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/cube/skybox/py.jpg'), side: THREE.BackSide } ), // top
+        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/cube/skybox/ny.jpg'), side: THREE.BackSide } ), // bottom
+        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/cube/skybox/pz.jpg'), side: THREE.BackSide } ), // back
+        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/cube/skybox/nz.jpg'), side: THREE.BackSide } )  // front
     ];
     var skyGeometry = new THREE.BoxGeometry( 500, 500, 500 );
     var skyMaterial = new THREE.MeshFaceMaterial( materials );
