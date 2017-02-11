@@ -89,7 +89,9 @@ function init() {
         specular: 0xffffff,
         shininess: 20,
         shading: THREE.FlatShading,
-        map: texture
+        map: texture,
+        transparent: true,
+        opacity: 0.2
     });
 
     var geometry = new THREE.PlaneGeometry(1000, 1000);
