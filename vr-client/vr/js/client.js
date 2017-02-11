@@ -1,6 +1,6 @@
 var camera, scene, renderer;
 var effect, controls;
-var element, container, gui, bouncer;
+var element, container, gui;
 var players = [];
 var raycaster, crosshairs;
 var score;
@@ -48,7 +48,7 @@ function init() {
     scene.add(camera);
 
     controls = new THREE.OrbitControls(camera, element);
-    controls.rotateUp(Math.PI / 4);
+    // controls.rotateUp(Math.PI / 4);
     controls.target.set(
         camera.position.x + 0.1,
         camera.position.y,
@@ -72,6 +72,9 @@ function init() {
     }
     window.addEventListener('deviceorientation', setOrientationControls, true);
 
+    raycaster = new THREE.Raycaster();
+    console.log('raycaster', raycaster);
+    crosshairs = new THREE.Vector2(container.offsetWidth, container.offsetHeight);
 
     var light = new THREE.HemisphereLight(0xFFFFFF, 0xFFFFFF, 0.6);
     scene.add(light);
@@ -89,7 +92,9 @@ function init() {
         specular: 0xffffff,
         shininess: 20,
         shading: THREE.FlatShading,
-        map: texture
+        map: texture,
+        transparent: true,
+        opacity: 0.2
     });
 
     var geometry = new THREE.PlaneGeometry(1000, 1000);
@@ -107,6 +112,7 @@ function init() {
         objMat.image = image;
         objMat.needsUpdate = true;
     });
+
 
     var objLoader = new THREE.OBJLoader();
     objLoader.load('fasadesmall.obj', function(obj) {
@@ -149,17 +155,15 @@ function init() {
     var skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
     scene.add( skyBox );
 
-
-    var boxThing = new THREE.BoxGeometry(1, 1, 1);
-    var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    bouncer = new THREE.Mesh( boxThing, material );
-    bouncer.position.x = 10;
-    scene.add(bouncer);
-
+    for (var i = 0; i < enemies.length; i++) {
+      const increment = i * 3;
+      scene.add(enemies[i]);
+      enemies[i].position.x = 8 + increment;
+      enemies[i].position.y = 3 + increment;
+    }
 
     window.addEventListener('resize', resize, false);
     setTimeout(resize, 1);
-
 }
 
 function resize() {
@@ -187,11 +191,20 @@ function render(dt) {
 
     i+= 0.05;
 
-    bouncer.position.y = 10*Math.abs(Math.sin(i));
-    bouncer.rotation.y = 10*Math.abs(Math.sin(i));
+    // BOUNCE! frikafrikafrikafrika!
+    // bouncer.position.y = 10*Math.abs(Math.sin(i));
+    // bouncer.rotation.y = 10*Math.abs(Math.sin(i));
+
+    // update enemies for render:
+    for (var j = 0; j < enemies.length; j++) {
+      enemies[j].rotation.y = Math.abs(Math.sin(i));
+      enemies[j].position.x = 15 + 5*Math.sin(i * 2 + j);
+      enemies[j].position.z = 20+ 10*Math.sin(i + j);
+    }
+
 
     // update the picking ray with the camera and crosshairs position
-    // raycaster.setFromCamera( crosshairs, camera );
+    raycaster.setFromCamera( crosshairs, camera );
 
     gui1.innerHTML = 'Poeng: ' + score;
     gui2.innerHTML = 'Poeng: ' + score;
