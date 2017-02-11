@@ -99,6 +99,26 @@ function init() {
     scene.add(mesh);
 
 
+
+    // Jel√ya radio!
+    objMat = new THREE.Texture();
+    objTexLoad = new THREE.ImageLoader();
+    objTexLoad.load('fasade.jpg', function(image) {
+        objMat.image = image;
+        objMat.needsUpdate = true;
+    });
+
+    var objLoader = new THREE.OBJLoader();
+    objLoader.load('fasadefix3.obj', function(obj) {
+        //obj.position.y = 10;
+        obj.traverse(function(child) {
+            if (child instanceof THREE.Mesh) {
+              child.material.map = objMat;
+            }
+        });
+        scene.add(obj);
+    });
+
 /*
     // v0.84 skybox
     var textureLoader = new THREE.TextureLoader();
