@@ -163,13 +163,16 @@ function init() {
     var skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
     scene.add( skyBox );
 
+    const boxGroup = new THREE.Object3D();
     for (var i = 0; i < employees.length; i++) {
       const increment = i * 3;
-      scene.add(employees[i]);
+      boxGroup.add(employees[i]);
       employeeGroup.push(employees[i]);
       employees[i].position.x = 8 + increment;
       employees[i].position.y = 3 + increment;
     }
+    boxGroup.name = "Employees";
+    scene.add(boxGroup);
 
     window.addEventListener('resize', resize, false);
     setTimeout(resize, 1);
@@ -251,9 +254,11 @@ function render(dt) {
       raycaster.setFromCamera( crosshairs, camera );
       var intersects = raycaster.intersectObjects( employeeGroup );
       for (let obj of intersects) {
-          obj.object.material.color.setHex( 0xff0000 );
-          scene.remove(obj.object);
-          ++score;
+          if (obj.object.parent && obj.object.parent.name === "Employees") {
+              obj.object.material.color.setHex( 0xff0000 );
+              scene.getObjectByName("Employees").remove(obj.object);
+              ++score;
+          }
       }
     }
 
