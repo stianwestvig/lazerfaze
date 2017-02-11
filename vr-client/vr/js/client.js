@@ -4,6 +4,7 @@ var element, container, gui;
 var players = [];
 var raycaster, crosshairs;
 var score;
+var employeeGroup = [];
 
 var clock = new THREE.Clock();
 // var socket = io('http://localhost:3000');
@@ -84,14 +85,10 @@ function init() {
 
     var textureLoader = new THREE.TextureLoader();
 
-    var texture = textureLoader.load(
-        'textures/patterns/checker.png'
-    );
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat = new THREE.Vector2(50, 50);
+    var texture = textureLoader.load('textures/patterns/checkers2.jpg');
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat = new THREE.Vector2(10, 10);
     texture.anisotropy = renderer.getMaxAnisotropy();
-
     var material = new THREE.MeshPhongMaterial({
         color: 0xffffff,
         specular: 0xffffff,
@@ -99,18 +96,15 @@ function init() {
         shading: THREE.FlatShading,
         map: texture,
         transparent: true,
-        opacity: 0.2
+        opacity: 0.5
     });
-
-    var geometry = new THREE.PlaneGeometry(1000, 1000);
-
+    var geometry = new THREE.PlaneGeometry(400, 400);
     var mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.x = -Math.PI / 2;
     scene.add(mesh);
 
 
-
-    // Jel√ya radio!
+    // Jel√∏ya radio!
     objMat = new THREE.Texture();
     objTexLoad = new THREE.ImageLoader();
     objTexLoad.load('fasade.jpg', function(image) {
@@ -146,6 +140,7 @@ function init() {
     for (var i = 0; i < employees.length; i++) {
       const increment = i * 3;
       scene.add(employees[i]);
+      employeeGroup.push(employees[i]);
       employees[i].position.x = 8 + increment;
       employees[i].position.y = 3 + increment;
     }
@@ -194,7 +189,7 @@ function render(dt) {
     // update the picking ray with the camera and crosshairs position
     raycaster.setFromCamera( crosshairs, camera );
 
-    var intersects = raycaster.intersectObjects( scene.children );
+    var intersects = raycaster.intersectObjects( employeeGroup );
     for (let obj of intersects) {
         obj.object.material.color.setHex( 0xff0000 );
         ++score;
