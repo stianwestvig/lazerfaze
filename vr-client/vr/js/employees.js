@@ -63,5 +63,13 @@ var employeeMaterials = [
     new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/employees/vivi-ann-ringnes.png'), color: 0xffffff } )
 ];
 
-var boxThing = new THREE.BoxGeometry(5, 5, 5);
-var employees = employeeMaterials.map((employee => new THREE.Mesh( boxThing, employee )));
+const size = 20;
+var boxThing = new THREE.BoxGeometry(size, size, size);
+const groupSize = employeeMaterials.length;
+const numGroups = 20;
+
+var uniqueEmployees = employeeMaterials.map(employee => new THREE.Mesh( boxThing, employee ));
+const employees = [];
+for (let emp = 0; emp < groupSize * numGroups; emp++) {
+    employees.push(uniqueEmployees[emp % groupSize].clone());
+}

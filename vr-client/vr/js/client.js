@@ -18,6 +18,28 @@ const player = {
     }
 };
 
+const randomMovements = [
+    (i, j) => ({
+        x: Math.sin(i) * 60,
+        y: i + 50*Math.sin(i + j),
+        z: i + 5*Math.sin(i + j),
+    }),
+];
+
+function rand() {
+    return Math.random() - 0.5;
+}
+
+function generateOriginPos(seed) {
+    const s = seed || 1;
+    return {
+        x: 40 + s * rand(),
+        y: 0 + s * rand(),
+        z: s * Math.random(),
+    }
+}
+
+
 var clock = new THREE.Clock();
 // var socket = io('http://localhost:3000');
 
@@ -54,6 +76,10 @@ function resetGame(scene, isReset) {
   maxDuration = 20;
   remainingTime = maxDuration;
   isTimerStarted = false;
+
+    for (let i = 0; i < employees.length; i++) {
+        employees[i].origin = generateOriginPos(i * 10);
+    }
 }
 
 function init() {
@@ -182,12 +208,14 @@ function init() {
     scene.add( skyBox );
 
     const boxGroup = new THREE.Object3D();
-    for (var i = 0; i < employees.length; i++) {
-      const increment = i * 3;
-      boxGroup.add(employees[i]);
-      employeeGroup.push(employees[i]);
-      employees[i].position.x = 8 + increment;
-      employees[i].position.y = 3 + increment;
+    for (let group = 0; group < numGroups; group++) {
+        for (let j = 0; j < groupSize; j++) {
+            const index = group * groupSize + j;
+            const increment = index * 10;
+            boxGroup.add(employees[index]);
+            employeeGroup.push(employees[index]);
+            employees[index].origin = generateOriginPos(increment);
+        }
     }
     boxGroup.name = "Employees";
     scene.add(boxGroup);
@@ -264,11 +292,22 @@ function render(dt) {
     // bouncer.rotation.y = 10*Math.abs(Math.sin(i));
 
     // update employees for render:
-    for (var j = 0; j < employees.length; j++) {
-      employees[j].rotation.y = Math.abs(Math.sin(i));
-      employees[j].position.x = 15 + 5*Math.sin(i * 2 + j);
-      employees[j].position.z = 20+ 10*Math.sin(i + j);
+    for (let group = 0; group < numGroups; group++) {
+        const offset = {
+            x: group * 10,
+            z: group * 10,
+        };
+        for (let j = 0; j < groupSize; j++) {
+            const index = group * groupSize + j;
+            const e = employees[index];
+            const nextPos = randomMovements[0](i, j);
+            e.position.x = e.origin.x + nextPos.x;
+            e.position.z = e.origin.y + nextPos.y;
+            e.position.y = e.origin.z + nextPos.z;
 
+            e.rotation.y = Math.abs(Math.sin(i));
+
+        }
       // for å gå i ring: sin(x) cos(z)
     }
 
@@ -277,7 +316,15 @@ function render(dt) {
       var intersects = raycaster.intersectObjects( employeeGroup );
       for (let obj of intersects) {
           if (obj.object.parent && obj.object.parent.name === "Employees") {
-              scene.getObjectByName("Employees").remove(obj.object);
+              // obj.object.material.color.setHex( 0xff0000 );
+              // scene.getObjectByName("Employees").remove(obj.object);
+              // const p = generateOriginPos(Math.random() * 100);
+              // obj.object.origin.x = p.x;
+              // obj.object.origin.y = p.y;
+              // obj.object.origin.z = p.z;
+              obj.object.origin.x = -1000;
+              obj.object.origin.y = -1000;
+              obj.object.origin.z = -1000;
               ++score;
           }
       }
