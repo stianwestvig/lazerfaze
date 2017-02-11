@@ -98,15 +98,43 @@ function init() {
     mesh.rotation.x = -Math.PI / 2;
     scene.add(mesh);
 
+
+/*
+    // v0.84 skybox
+    var textureLoader = new THREE.TextureLoader();
+    var materials = [
+        new THREE.MeshBasicMaterial( { map: textureLoader.load( 'textures/cube/skybox/px.jpg' ) } ), // right
+        new THREE.MeshBasicMaterial( { map: textureLoader.load( 'textures/cube/skybox/nx.jpg' ) } ), // left
+        new THREE.MeshBasicMaterial( { map: textureLoader.load( 'textures/cube/skybox/py.jpg' ) } ), // top
+        new THREE.MeshBasicMaterial( { map: textureLoader.load( 'textures/cube/skybox/ny.jpg' ) } ), // bottom
+        new THREE.MeshBasicMaterial( { map: textureLoader.load( 'textures/cube/skybox/pz.jpg' ) } ), // back
+        new THREE.MeshBasicMaterial( { map: textureLoader.load( 'textures/cube/skybox/nz.jpg' ) } )  // front
+    ];
+    var skymesh = new THREE.Mesh( new THREE.BoxGeometry( 10000, 10000, 10000, 7, 7, 7 ), new THREE.MultiMaterial( materials ) );
+    skymesh.scale.x = - 1;
+    scene.add(skymesh);
+*/
+
+    // v0.68 skybox
+    var materials = [
+        new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('textures/cube/skybox/px.jpg'), side: THREE.BackSide } ), // right
+        new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('textures/cube/skybox/nx.jpg'), side: THREE.BackSide } ), // left
+        new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('textures/cube/skybox/py.jpg'), side: THREE.BackSide } ), // top
+        new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('textures/cube/skybox/ny.jpg'), side: THREE.BackSide } ), // bottom
+        new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('textures/cube/skybox/pz.jpg'), side: THREE.BackSide } ), // back
+        new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('textures/cube/skybox/nz.jpg'), side: THREE.BackSide } )  // front
+    ];
+    var skyGeometry = new THREE.BoxGeometry( 500, 500, 500 );
+    var skyMaterial = new THREE.MeshFaceMaterial( materials );
+    var skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
+    scene.add( skyBox );
+
+
     var boxThing = new THREE.BoxGeometry(1, 1, 1);
     var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
     bouncer = new THREE.Mesh( boxThing, material );
     bouncer.position.x = 10;
     scene.add(bouncer);
-
-    // raycaster = new THREE.Raycaster();
-    // console.log('raycaster', raycaster);
-    // crosshairs = new THREE.Vector2(container.offsetWidth, container.offsetHeight);
 
 
     window.addEventListener('resize', resize, false);
@@ -144,7 +172,6 @@ function render(dt) {
 
     // update the picking ray with the camera and crosshairs position
     // raycaster.setFromCamera( crosshairs, camera );
-
 
     gui1.innerHTML = 'Poeng: ' + score;
     gui2.innerHTML = 'Poeng: ' + score;

@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const server = require('http').Server(app);
-const socket = require('socket.io')(server);
+//const socket = require('socket.io')(server);
 
 app.use('/vr', express.static(path.join(__dirname, 'vr')));
 
