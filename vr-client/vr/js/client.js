@@ -212,6 +212,7 @@ function render(dt) {
     var intersects = raycaster.intersectObjects( scene.children );
     for (let obj of intersects) {
         obj.object.material.color.setHex( 0xff0000 );
+        ++score;
     }
 
 
