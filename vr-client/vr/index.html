@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Cardboard Example</title>
+    <title>Lazerface</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
@@ -30,7 +30,9 @@
   <script>
     var camera, scene, renderer;
     var effect, controls;
-    var element, container;
+    var element, container, bouncer;
+    var players = [];
+    var raycaster, crosshairs;
 
     var clock = new THREE.Clock();
     var socket = io('http://localhost:3000');
@@ -122,11 +124,14 @@
 
       var boxThing = new THREE.BoxGeometry(1, 1, 1);
       var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-      var cube = new THREE.Mesh( boxThing, material );
-      cube.position.x = 10;
+      bouncer = new THREE.Mesh( boxThing, material );
+      bouncer.position.x = 10;
+      scene.add(bouncer);
 
-      scene.add(cube);
-      console.log('cube.position', cube.position);
+      raycaster = new THREE.Raycaster();
+      console.log('raycaster', raycaster);
+      crosshairs = new THREE.Vector2(container.offsetWidth, container.offsetHeight);
+
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
@@ -158,9 +163,17 @@ var i = 0;
 
       i+= 0.05;
 
-      scene.children[3].position.y = 10*Math.abs(Math.sin(i));
-      scene.children[3].rotation.y = 10*Math.abs(Math.sin(i));
-      // console.log(scene.children[3].position);
+      bouncer.position.y = 10*Math.abs(Math.sin(i));
+      bouncer.rotation.y = 10*Math.abs(Math.sin(i));
+
+      // update the picking ray with the camera and crosshairs position
+    	// raycaster.setFromCamera( crosshairs, camera );
+
+    	// calculate objects intersecting the picking ray
+    	var intersects = raycaster.intersectObjects( scene.children );
+    	for ( var i = 0; i < intersects.length; i++ ) {
+    		intersects[ i ].object.material.color.set( 0xff0000 );
+    	}
 
       effect.render(scene, camera);
     }
