@@ -130,23 +130,6 @@ function init() {
         scene.add(obj);
     });
 
-/*
-    // v0.84 skybox
-    var textureLoader = new THREE.TextureLoader();
-    var materials = [
-        new THREE.MeshBasicMaterial( { map: textureLoader.load( 'textures/cube/skybox/px.jpg' ) } ), // right
-        new THREE.MeshBasicMaterial( { map: textureLoader.load( 'textures/cube/skybox/nx.jpg' ) } ), // left
-        new THREE.MeshBasicMaterial( { map: textureLoader.load( 'textures/cube/skybox/py.jpg' ) } ), // top
-        new THREE.MeshBasicMaterial( { map: textureLoader.load( 'textures/cube/skybox/ny.jpg' ) } ), // bottom
-        new THREE.MeshBasicMaterial( { map: textureLoader.load( 'textures/cube/skybox/pz.jpg' ) } ), // back
-        new THREE.MeshBasicMaterial( { map: textureLoader.load( 'textures/cube/skybox/nz.jpg' ) } )  // front
-    ];
-    var skymesh = new THREE.Mesh( new THREE.BoxGeometry( 10000, 10000, 10000, 7, 7, 7 ), new THREE.MultiMaterial( materials ) );
-    skymesh.scale.x = - 1;
-    scene.add(skymesh);
-*/
-
-    // v0.68 skybox
     var materials = [
         new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/cube/skybox/px.jpg'), side: THREE.BackSide } ), // right
         new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/cube/skybox/nx.jpg'), side: THREE.BackSide } ), // left
@@ -156,7 +139,7 @@ function init() {
         new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/cube/skybox/nz.jpg'), side: THREE.BackSide } )  // front
     ];
     var skyGeometry = new THREE.BoxGeometry( 500, 500, 500 );
-    var skyMaterial = new THREE.MeshFaceMaterial( materials );
+    var skyMaterial = new THREE.MultiMaterial( materials );
     var skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
     scene.add( skyBox );
 
