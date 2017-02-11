@@ -48,7 +48,7 @@ function init() {
     scene.add(camera);
 
     controls = new THREE.OrbitControls(camera, element);
-    controls.rotateUp(Math.PI / 4);
+    // controls.rotateUp(Math.PI / 4);
     controls.target.set(
         camera.position.x + 0.1,
         camera.position.y,
@@ -72,6 +72,9 @@ function init() {
     }
     window.addEventListener('deviceorientation', setOrientationControls, true);
 
+    raycaster = new THREE.Raycaster();
+    console.log('raycaster', raycaster);
+    crosshairs = new THREE.Vector2(container.offsetWidth, container.offsetHeight);
 
     var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
     scene.add(light);
@@ -109,6 +112,7 @@ function init() {
         objMat.image = image;
         objMat.needsUpdate = true;
     });
+
 
     var objLoader = new THREE.OBJLoader();
     objLoader.load('fasadefix3.obj', function(obj) {
@@ -193,7 +197,7 @@ function render(dt) {
     bouncer.rotation.y = 10*Math.abs(Math.sin(i));
 
     // update the picking ray with the camera and crosshairs position
-    // raycaster.setFromCamera( crosshairs, camera );
+    raycaster.setFromCamera( crosshairs, camera );
 
     gui1.innerHTML = 'Poeng: ' + score;
     gui2.innerHTML = 'Poeng: ' + score;
