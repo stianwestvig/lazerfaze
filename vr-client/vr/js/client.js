@@ -41,11 +41,11 @@ function calc3Dist(vector) {
 // Det er for mange, og for langt unna! (den ene for√rsaker den andre)
 function generateOriginPos(seed) {
     var returnObj = {
-      x:  Math.random()*1000-500,
-      y:  Math.random()*500,
-      z:  Math.random()*1000-500,
+      x:  Math.random()*500-250,
+      y:  Math.random()*250,
+      z:  Math.random()*500-250
     }
-    while(calc3Dist(returnObj) < 100) {
+    while(calc3Dist(returnObj) < 40) {
       //Ok, med litt uheldig RNG kan den her faktisk tryne spillet, men pytt
       returnObj = generateOriginPos();
     }
@@ -215,7 +215,7 @@ function init() {
         new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/cube/skybox/pz.jpg'), side: THREE.BackSide } ), // back
         new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/cube/skybox/nz.jpg'), side: THREE.BackSide } )  // front
     ];
-    var skyGeometry = new THREE.BoxGeometry( 500, 500, 500 );
+    var skyGeometry = new THREE.BoxGeometry( 600, 600, 600 );
     var skyMaterial = new THREE.MultiMaterial( materials );
     var skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
     scene.add( skyBox );

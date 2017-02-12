@@ -63,10 +63,10 @@ var employeeMaterials = [
     new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/employees/vivi-ann-ringnes.png'), color: 0xffffff } )
 ];
 
-const size = 20;
+const size = 25;
 var boxThing = new THREE.BoxGeometry(size, size, size);
 const groupSize = employeeMaterials.length;
-const numGroups = 20;
+const numGroups = 1;
 
 var uniqueEmployees = employeeMaterials.map(employee => new THREE.Mesh( boxThing, employee ));
 const employees = [];
