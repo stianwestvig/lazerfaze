@@ -30,13 +30,26 @@ function rand() {
     return Math.random() - 0.5;
 }
 
+function calc2Dist(vector) {
+   return Math.sqrt(Math.pow(vector.x,2) + Math.pow(vector.y,2));  
+}
+
+function calc3Dist(vector) {
+   return calc2Dist({x:calc2Dist({x:vector.x,y:vector.y}),y:vector.z});
+}
+
+// Det er for mange, og for langt unna! (den ene for�rsaker den andre)
 function generateOriginPos(seed) {
-    const s = seed || 1;
-    return {
-        x: 40 + s * rand(),
-        y: 0 + s * rand(),
-        z: s * Math.random(),
+    var returnObj = {
+      x:  Math.random()*1000-500,
+      y:  Math.random()*500,
+      z:  Math.random()*1000-500,
     }
+    while(calc3Dist(returnObj) < 100) {
+      //Ok, med litt uheldig RNG kan den her faktisk tryne spillet, men pytt
+      returnObj = generateOriginPos();
+    }
+    return returnObj;
 }
 
 
@@ -300,12 +313,14 @@ function render(dt) {
         for (let j = 0; j < groupSize; j++) {
             const index = group * groupSize + j;
             const e = employees[index];
-            const nextPos = randomMovements[0](i, j);
-            e.position.x = e.origin.x + nextPos.x;
-            e.position.z = e.origin.y + nextPos.y;
-            e.position.y = e.origin.z + nextPos.z;
+            //const nextPos = randomMovements[0](i, j);
+            e.position.x = e.origin.x + 10 * Math.sin(i*2+index);
+            e.position.y = e.origin.y + 5 * Math.sin(i+index);
+            e.position.z = e.origin.z + 20 * Math.cos(i+index);
 
-            e.rotation.y = Math.abs(Math.sin(i));
+            e.rotation.y += 0.01;
+            e.rotation.x = Math.sin(i+index);
+            e.rotation.z += 0.005;
 
         }
       // for å gå i ring: sin(x) cos(z)
@@ -322,9 +337,7 @@ function render(dt) {
               // obj.object.origin.x = p.x;
               // obj.object.origin.y = p.y;
               // obj.object.origin.z = p.z;
-              obj.object.origin.x = -1000;
-              obj.object.origin.y = -1000;
-              obj.object.origin.z = -1000;
+              obj.object.origin = generateOriginPos();
               ++score;
           }
       }
