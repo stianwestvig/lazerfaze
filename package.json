@@ -1,0 +1,14 @@
+{
+  "name": "vr-starter",
+  "version": "1.0.0",
+  "description": "So you can create your own worlds",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.15.3",
+    "three": "0.84.0"
+  }
+}
