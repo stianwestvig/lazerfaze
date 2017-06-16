@@ -1,11 +1,11 @@
 # VR starter kit
 So you can create your own worlds
 
-![What you will see](what-you-will-see.png?raw=true "What you will see")
+![What you will see](screenshot.png?raw=true "What you will see")
 
 ## What is this
 This is basically chrome experiments VR starter but upgraded to a modern
-version of three.js, and a pretty sunny skybox.
+version of three.js, and a skybox from here http://www.custommapmakers.org/skyboxes.php.
 
 Website is served by Express on nodejs.
 

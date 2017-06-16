@@ -84,7 +84,7 @@ function init() {
         shading: THREE.FlatShading,
         map: texture,
         transparent: true,
-        opacity: 0.5
+        opacity: 0.8
     });
     var geometry = new THREE.PlaneGeometry(400, 400);
     var mesh = new THREE.Mesh(geometry, material);
@@ -94,12 +94,12 @@ function init() {
 
     // skybox
     var materials = [
-        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/px.jpg'), side: THREE.BackSide } ), // right
-        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/nx.jpg'), side: THREE.BackSide } ), // left
-        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/py.jpg'), side: THREE.BackSide } ), // top
-        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/ny.jpg'), side: THREE.BackSide } ), // bottom
-        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/pz.jpg'), side: THREE.BackSide } ), // back
-        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/nz.jpg'), side: THREE.BackSide } )  // front
+        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/cwd_rt.jpg'), side: THREE.BackSide } ), // right
+        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/cwd_lf.jpg'), side: THREE.BackSide } ), // left
+        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/cwd_up.jpg'), side: THREE.BackSide } ), // top
+        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/cwd_dn.jpg'), side: THREE.BackSide } ), // bottom
+        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/cwd_bk.jpg'), side: THREE.BackSide } ), // back
+        new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/cwd_ft.jpg'), side: THREE.BackSide } )  // front
     ];
     var skyGeometry = new THREE.BoxGeometry( 600, 600, 600 );
     var skyMaterial = new THREE.MultiMaterial( materials );
