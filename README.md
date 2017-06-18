@@ -1,7 +1,7 @@
 # VR starter kit
 So you can create your own worlds
 
-![What you will see](screenshot.png?raw=true "What you will see")
+![What you will see](screenshot.jpg?raw=true "What you will see")
 
 ## What is this
 This is basically chrome experiments VR starter but upgraded to a modern
