@@ -98,7 +98,7 @@ function init() {
     scene.add(mesh);
 
     // skybox
-    var materials = [
+    var skyMaterial = [
         new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/cwd_rt.jpg'), side: THREE.BackSide } ), // right
         new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/cwd_lf.jpg'), side: THREE.BackSide } ), // left
         new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/cwd_up.jpg'), side: THREE.BackSide } ), // top
@@ -107,7 +107,6 @@ function init() {
         new THREE.MeshBasicMaterial( { map: textureLoader.load('textures/skybox/cwd_ft.jpg'), side: THREE.BackSide } )  // front
     ];
     var skyGeometry = new THREE.BoxGeometry( 600, 600, 600 );
-    var skyMaterial = new THREE.MultiMaterial( materials );
     var skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
     scene.add( skyBox );
 
