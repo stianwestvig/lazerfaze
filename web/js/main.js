@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import DeviceOrientationControls from './third-party/threejs/DeviceOrientationControls.js';
 import StereoEffect from './third-party/threejs/StereoEffect.js';
 import OrbitControls from './third-party/threejs/OrbitControls.js';
-import OBJLoader from './third-party/threejs/OBJLoader.js';
 
 var camera, scene, renderer;
 var effect, controls;
@@ -55,8 +54,8 @@ function init() {
         camera.position.y,
         camera.position.z
     );
-    controls.noZoom = true;
-    controls.noPan = true;
+    controls.enableZoom = false;
+    controls.enablePan = false;
 
     function setOrientationControls(e) {
         if (!e.alpha) {
