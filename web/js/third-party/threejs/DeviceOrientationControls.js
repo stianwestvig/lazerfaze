@@ -5,7 +5,7 @@
  * W3C Device Orientation control (http://w3c.github.io/deviceorientation/spec-source-orientation.html)
  */
 
-THREE.DeviceOrientationControls = function( object ) {
+ export default function StereoEffect( object ) {
 
 	var scope = this;
 

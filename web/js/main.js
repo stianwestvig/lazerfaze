@@ -1,3 +1,9 @@
+import * as THREE from 'three';
+import DeviceOrientationControls from './third-party/threejs/DeviceOrientationControls.js';
+import StereoEffect from './third-party/threejs/StereoEffect.js';
+import OrbitControls from './third-party/threejs/OrbitControls.js';
+import OBJLoader from './third-party/threejs/OBJLoader.js';
+
 var camera, scene, renderer;
 var effect, controls;
 var element, container;
@@ -32,7 +38,7 @@ function init() {
     container = document.getElementById('app');
     container.appendChild(element);
 
-    effect = new THREE.StereoEffect(renderer);
+    effect = new StereoEffect(renderer);
 
     scene = new THREE.Scene();
     // scene.fog = new THREE.FogExp2( 0xefd1b5, 0.004 );
@@ -43,7 +49,7 @@ function init() {
 
     // todo: resetGame
 
-    controls = new THREE.OrbitControls(camera, element);
+    controls = new OrbitControls(camera, element);
     controls.target.set(
         camera.position.x + 0.1,
         camera.position.y,
@@ -57,7 +63,7 @@ function init() {
             return;
         }
 
-        controls = new THREE.DeviceOrientationControls(camera, true);
+        controls = new DeviceOrientationControls(camera, true);
         controls.connect();
         controls.update();
 

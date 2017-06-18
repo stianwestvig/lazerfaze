@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 /**
  * @author alteredq / http://alteredqualia.com/
  * @authod mrdoob / http://mrdoob.com/
@@ -5,7 +6,7 @@
  * @authod fonserbc / http://fonserbc.github.io/
 */
 
-THREE.StereoEffect = function ( renderer ) {
+export default function StereoEffect( renderer ) {
 
 	var _stereo = new THREE.StereoCamera();
 	_stereo.aspect = 0.5;

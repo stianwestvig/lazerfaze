@@ -2,13 +2,22 @@
   "name": "vr-starter",
   "version": "1.0.0",
   "description": "So you can create your own worlds",
+  "repository": "https://github.com/stianwestvig/vr-starter",
   "scripts": {
-    "start": "node server.js"
+    "start": "rollup -c -w | node server.js"
   },
-  "author": "",
+  "author": "Stian Westvig",
   "license": "ISC",
   "dependencies": {
     "express": "4.15.3",
     "three": "0.84.0"
+  },
+  "devDependencies": {
+    "babel-plugin-external-helpers": "6.22.0",
+    "babel-preset-latest": "6.24.1",
+    "rollup": "0.43.0",
+    "rollup-plugin-babel": "2.7.1",
+    "rollup-plugin-node-resolve": "3.0.0",
+    "rollup-watch": "4.0.0"
   }
 }
